@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Signatures</title>
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #6262f3; /* blue theme */
+        font-family: sans-serif;
+        margin: 0;
+    }
+
+    .login-container {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        width: 350px;
+        text-align: center;
+        border-radius: 10%;
+    }
+
+    .login-container img.logo {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+        border-radius: 50%;
+    }
+
+    .login-container h1.title {
+        font-size: 28px;
+        margin-bottom: 25px;
+        color: #003366;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .login-container form .form-label {
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .login-container form input.form-control {
+        margin-bottom: 15px;
+    }
+
+    .login-container .alert {
+        margin-top: 10px;
+    }
+
+    .login-container p {
+        margin-top: 15px;
+    }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
+    <h1 class="title">GOLDEN SIGNATURES</h1>
+
+    <h2>Login</h2>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3 text-start">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" class="form-control" required>
+        </div>
+        
+        <div class="mb-3 text-start position-relative">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter password" class="form-control" required>
+    
+    <button type="button" id="showHide" style="
+        position: absolute;
+        right: 10px;
+        top: 38px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+    ">Show</button>
+</div>
+        <button type="submit" class="btn btn-primary w-100" >Submit</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a></p>
+</div>
+<script>
+const password = document.getElementById("password");
+const showHide = document.getElementById("showHide");
+
+showHide.addEventListener("click", function() {
+    if(password.type === "password"){
+        password.type = "text";
+        showHide.textContent = "Hide";
+    } else {
+        password.type = "password";
+        showHide.textContent = "Show";
+    }
+});
+</script>
+
+</body>
+</html>
